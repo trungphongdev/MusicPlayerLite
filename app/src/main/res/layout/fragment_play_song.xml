@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imvBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Playing Now"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imvBack"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/imvBack"
+        android:fontFamily="@font/gilroy_semibold"/>
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imvAlbumArtist"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="40dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@id/tvNameSong"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginVertical="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/imvBack"
+        app:layout_constraintWidth_percent="0.8"
+        app:shapeAppearance="@style/roundImageViewPlaySong"
+        app:srcCompat="@drawable/ic_song_placeholder" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNameSong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginBottom="20dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/gilroy_semibold"
+        android:maxLines="2"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvArtist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="You are my love" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvArtist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="14dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="40dp"
+        android:alpha="0.8"
+        android:ellipsize="end"
+        android:fontFamily="@font/gilroy_regular"
+        android:maxLines="2"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/imvLyric"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="1"
+        tools:text="Phong Dinh Trung" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imvPlayList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@id/seekbarSong"
+        app:layout_constraintEnd_toStartOf="@id/imvLyric"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_playlist_song" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imvFavourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imvLyric"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imvLyric"
+        app:layout_constraintTop_toTopOf="@+id/imvLyric"
+        app:srcCompat="@drawable/ic_favourite" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imvLyric"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintEnd_toStartOf="@id/imvFavourite"
+        app:layout_constraintStart_toEndOf="@id/imvPlayList"
+        app:layout_constraintTop_toTopOf="@id/imvPlayList"
+        app:srcCompat="@drawable/ic_lyric" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seekbarSong"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="20dp"
+        tools:max="10"
+        android:maxHeight="4dp"
+        android:minHeight="3dp"
+        android:progress="4"
+        android:progressDrawable="@drawable/seek_bar_music"
+        android:thumb="@drawable/thumb_music"
+        app:layout_constraintBottom_toTopOf="@id/tvCurrentTimeSong"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCurrentTimeSong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:alpha="0.8"
+        android:fontFamily="@font/gilroy_regular"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/seekbarSong"
+        app:layout_constraintTop_toBottomOf="@id/seekbarSong"
+
+        tools:text="00:00" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMaxTimeSong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="@font/gilroy_regular"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/llTools"
+        app:layout_constraintEnd_toEndOf="@id/seekbarSong"
+        app:layout_constraintTop_toBottomOf="@id/seekbarSong"
+        app:layout_constraintVertical_bias="1"
+        tools:text="00:00" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/llTools"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imvShuffle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_shuffle" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imvPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingVertical="4dp"
+            app:srcCompat="@drawable/ic_previous" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_button_play"
+            android:padding="20dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imvPause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_button_play"
+                app:srcCompat="@drawable/ic_pause" />
+
+        </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imvNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_next" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imvLooping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_looping" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment android:id="@+id/playListFragment"
+        android:name="com.example.musicplayerlite.screen.playlist.PlayListFragment"
+        tools:layout="@layout/fragment_play_list"
+        android:label="PlayList" />
+
+    <fragment android:id="@+id/playSongFragment"
+        android:name="com.example.musicplayerlite.screen.play.PlaySongFragment"
+        tools:layout="@layout/fragment_play_song"
+        android:label="PlayList" />
+
+    <fragment android:id="@+id/homeFragment"
+        android:name="com.example.musicplayerlite.screen.home.HomeFragment"
+        tools:layout="@layout/fragment_home"
+        android:label="Home" />
+
+
+</navigation>
