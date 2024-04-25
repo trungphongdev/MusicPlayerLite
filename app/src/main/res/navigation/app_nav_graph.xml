@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/onboardingFragment">
 
     <fragment android:id="@+id/playListFragment"
         android:name="com.example.musicplayerlite.screen.playlist.PlayListFragment"
@@ -19,6 +19,11 @@
         android:name="com.example.musicplayerlite.screen.home.HomeFragment"
         tools:layout="@layout/fragment_home"
         android:label="Home" />
+
+    <fragment android:id="@+id/onboardingFragment"
+        android:name="com.example.musicplayerlite.screen.onboarding.OnboardingFragment"
+        tools:layout="@layout/fragment_onboarding"
+        android:label="Onboarding" />
 
 
 </navigation>

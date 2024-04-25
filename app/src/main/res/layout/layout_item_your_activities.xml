@@ -35,8 +35,8 @@
 
     <ImageView
         android:id="@+id/imvNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_back"
@@ -50,6 +50,7 @@
         android:layout_alignStart="@id/tvName"
         android:layout_alignEnd="@id/tvName"
         android:layout_marginTop="14dp"
+        android:alpha="0.8"
         android:layout_toStartOf="@id/tvName"
         android:background="@drawable/bg_line" />
 </RelativeLayout>

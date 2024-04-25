@@ -7,16 +7,6 @@
     android:animateLayoutChanges="true"
     tools:context=".screen.playlist.PlayListFragment">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imvTheme"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintHeight_percent="0.3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/img_disc_playlist_2" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvPlayList"
         android:layout_width="0dp"
@@ -27,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imvTheme"
+        app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="20"
         tools:listitem="@layout/layout_item_song" />
 

@@ -20,5 +20,6 @@
     <string name="number_albums">%d Albums</string>
     <string name="number_artist">%d Artists</string>
     <string name="number_song">%d Songs</string>
+    <string name="next">Next</string>
 
 </resources>
