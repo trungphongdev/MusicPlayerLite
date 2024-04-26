@@ -37,6 +37,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun initView() {
         setUpRcv()
+        with(binding.iclYourDownloads) {
+            cvAlbum.setOnClickListener {
+                navigateToAlbumScreen()
+            }
+            cvPlaylist.setOnClickListener {
+                navigateToPlayListScreen()
+            }
+            cvArtist.setOnClickListener {
+                navigateToArtistScreen()
+            }
+            cvVideo.setOnClickListener {
+
+            }
+        }
     }
 
     override fun initViewListener() {
@@ -69,6 +83,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun navigateToPlayListScreen() {
         findNavController().navigate(R.id.playListFragment)
+    }
+
+    private fun navigateToArtistScreen() {
+        findNavController().navigate(R.id.artistFragment)
+    }
+
+    private fun navigateToAlbumScreen() {
+        findNavController().navigate(R.id.albumFragment)
     }
 }
 

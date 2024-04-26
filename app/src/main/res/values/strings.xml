@@ -21,5 +21,7 @@
     <string name="number_artist">%d Artists</string>
     <string name="number_song">%d Songs</string>
     <string name="next">Next</string>
+    <string name="your_albums">Your Albums</string>
+    <string name="your_artist">Your Artist</string>
 
 </resources>

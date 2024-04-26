@@ -10,7 +10,6 @@ import com.example.musicplayerlite.R
 import com.example.musicplayerlite.adapter.BaseFragmentPagerAdapter
 import com.example.musicplayerlite.base.BaseFragment
 import com.example.musicplayerlite.databinding.FragmentOnboardingBinding
-import com.example.musicplayerlite.extention.showToast
 
 class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>() {
 

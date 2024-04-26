@@ -17,6 +17,7 @@ import com.example.musicplayerlite.common.PlaybackInfoListener
 import com.example.musicplayerlite.databinding.ActivityMainBinding
 import com.example.musicplayerlite.extention.displayCutout
 import com.example.musicplayerlite.extention.hideSystemBar
+import com.example.musicplayerlite.extention.setStatusBarColor
 import com.example.musicplayerlite.screen.playlist.SongViewModel
 import com.example.musicplayerlite.service.MusicService
 import kotlinx.coroutines.flow.launchIn
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         hideSystemBar()
+        setStatusBarColor(android.R.color.transparent)
         displayCutout()
         setContentView(binding.root)
         initObservers()
@@ -85,7 +87,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onPlayBackCompleted() {
-                TODO("Not yet implemented")
+                /* no-op */
             }
 
         }

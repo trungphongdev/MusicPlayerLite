@@ -5,25 +5,41 @@
     android:id="@+id/app_nav_graph"
     app:startDestination="@id/onboardingFragment">
 
-    <fragment android:id="@+id/playListFragment"
+    <fragment
+        android:id="@+id/playListFragment"
         android:name="com.example.musicplayerlite.screen.playlist.PlayListFragment"
-        tools:layout="@layout/fragment_play_list"
-        android:label="PlayList" />
+        android:label="PlayList"
+        tools:layout="@layout/fragment_play_list" />
 
-    <fragment android:id="@+id/playSongFragment"
+    <fragment
+        android:id="@+id/playSongFragment"
         android:name="com.example.musicplayerlite.screen.play.PlaySongFragment"
-        tools:layout="@layout/fragment_play_song"
-        android:label="PlayList" />
+        android:label="PlayList"
+        tools:layout="@layout/fragment_play_song" />
 
-    <fragment android:id="@+id/homeFragment"
+    <fragment
+        android:id="@+id/homeFragment"
         android:name="com.example.musicplayerlite.screen.home.HomeFragment"
-        tools:layout="@layout/fragment_home"
-        android:label="Home" />
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
 
-    <fragment android:id="@+id/onboardingFragment"
+    <fragment
+        android:id="@+id/onboardingFragment"
         android:name="com.example.musicplayerlite.screen.onboarding.OnboardingFragment"
-        tools:layout="@layout/fragment_onboarding"
-        android:label="Onboarding" />
+        android:label="Onboarding"
+        tools:layout="@layout/fragment_onboarding" />
+
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="com.example.musicplayerlite.screen.album.FragmentAlbums"
+        android:label="Album"
+        tools:layout="@layout/fragment_album" />
+
+    <fragment
+        android:id="@+id/artistFragment"
+        android:name="com.example.musicplayerlite.screen.artist.FragmentArtist"
+        android:label="Artist"
+        tools:layout="@layout/fragment_artist" />
 
 
 </navigation>

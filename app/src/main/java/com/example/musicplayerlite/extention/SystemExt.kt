@@ -26,6 +26,7 @@ fun Activity.hideSystemBar(
     if (hideNavigationBar) {
         windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars())
     }
+    windowInsetsController.isAppearanceLightStatusBars = false
 }
 
 fun Activity.setStatusBarColor(colorRes: Int) {

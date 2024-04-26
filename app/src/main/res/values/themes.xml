@@ -18,6 +18,12 @@
         <item name="cornerSize">8dp</item>
     </style>
 
+    <style name="circleImageViewSong">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">100dp</item>
+        <item name="android:shape">oval</item>
+    </style>
+
     <style name="roundImageViewPlaySong">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20dp</item>

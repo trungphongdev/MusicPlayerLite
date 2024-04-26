@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <size
+                android:width="100dp"
+                android:height="100dp" />
+
+            <corners android:radius="10dp" />
+            <gradient
+                android:angle="45"
+                android:centerColor="@color/gradient_center_color"
+                android:endColor="@color/gradient_end_color"
+                android:startColor="@color/gradient_start_color" />
+        </shape>
+    </item>
+
+    <item
+        android:width="50dp"
+        android:height="50dp"
+        android:drawable="@drawable/ic_musci_static"
+        android:gravity="center" />
+</layer-list>
