@@ -3,6 +3,7 @@ package com.example.musicplayerlite
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.media.AudioManager
 import android.os.Bundle
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import com.example.musicplayerlite.broardcast.BecomingNoisyReceiver
 import com.example.musicplayerlite.common.PlaybackInfoListener
 import com.example.musicplayerlite.databinding.ActivityMainBinding
 import com.example.musicplayerlite.extention.displayCutout
@@ -30,6 +32,8 @@ class MainActivity : AppCompatActivity() {
     private var mService: MusicService? = null
     private val viewModel by viewModel<SongViewModel>()
     lateinit var listenerPlayback: PlaybackInfoListener
+    private val intentFilter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+    private val myNoisyAudioStreamReceiver = BecomingNoisyReceiver()
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
@@ -55,7 +59,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initObservers()
         initViewsListener()
+        myNoisyAudioStreamReceiver.onBecomingNoisy = {
+            if (it) {
+                mService?.pauseSong()
+            }
+        }
     }
+
 
     private fun initViewsListener() {
         onBackPressedDispatcher.addCallback {
@@ -106,6 +116,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        registerReceiver(myNoisyAudioStreamReceiver, intentFilter)
         bindService(
             Intent(this@MainActivity, MusicService::class.java),
             connection,
@@ -121,6 +132,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
+        unregisterReceiver(myNoisyAudioStreamReceiver)
         unbindService(connection)
         mBound = false
         mService = null
