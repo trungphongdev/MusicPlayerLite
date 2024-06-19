@@ -7,17 +7,39 @@
     android:animateLayoutChanges="true"
     tools:context=".screen.playlist.PlayListFragment">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imvBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Playlist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imvBack"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/imvBack"
+        android:fontFamily="@font/gilroy_semibold"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvPlayList"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
         android:overScrollMode="never"
+        android:paddingTop="20dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imvBack"
         tools:itemCount="20"
         tools:listitem="@layout/layout_item_song" />
 

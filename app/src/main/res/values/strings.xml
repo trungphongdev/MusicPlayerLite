@@ -23,5 +23,8 @@
     <string name="next">Next</string>
     <string name="your_albums">Your Albums</string>
     <string name="your_artist">Your Artist</string>
+    <string name="artist_song">Artists Song</string>
+    <string name="albums_song">Alums Song</string>
+    <string name="play_list_song">Playlist Song</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.example.musicplayerlite.screen.play
 
+import android.util.Log
 import android.widget.SeekBar
 import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.lifecycle.Lifecycle
@@ -23,7 +24,10 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import java.util.concurrent.TimeUnit
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 class PlaySongFragment : BaseFragment<FragmentPlaySongBinding>() {
     private val viewModel by activityViewModel<SongViewModel>()
@@ -59,6 +63,13 @@ class PlaySongFragment : BaseFragment<FragmentPlaySongBinding>() {
                         .placeholder(R.drawable.ic_song_placeholder)
                         .error(R.drawable.ic_song_placeholder)
                         .into(imvAlbumArtist)
+                    120.seconds.toComponents { minutes, seconds, nanoseconds ->
+                        binding.tvMaxTimeSong.text = "$minutes   $seconds"
+                        Log.d("tag123", "toDuration: " + minutes)
+                    }
+                    song.duration.toDuration(DurationUnit.MINUTES).inWholeMinutes.also {
+                        Log.d("tag123", "initView: " + it)
+                    }
                 }
             }.launchIn(lifecycleScope)
 
@@ -82,7 +93,7 @@ class PlaySongFragment : BaseFragment<FragmentPlaySongBinding>() {
 
     override fun initViewListener() {
         binding.imvBack.setOnClickListener {
-            findNavController().popBackStack()
+            findNavController().navigateUp()
         }
         binding.seekbarSong.setOnStopTrackingTouch { progress ->
             (activity as MainActivity).listenerPlayback.onDurationChanged(progress)
@@ -104,6 +115,11 @@ class PlaySongFragment : BaseFragment<FragmentPlaySongBinding>() {
         binding.imvLooping.setOnClickListener {
             (activity as MainActivity).listenerPlayback.onStateChanged(PlaybackInfoListener.Action.LOOPING)
         }
+        binding.imvFavourite.setOnClickListener {
+            val songId = viewModel.musicStateFlow.value?.song?.id ?: return@setOnClickListener
+            viewModel.updateFavouriteSong(songId)
+        }
+
     }
 
     private fun AppCompatSeekBar.setOnStopTrackingTouch(
@@ -131,5 +147,10 @@ class PlaySongFragment : BaseFragment<FragmentPlaySongBinding>() {
     }
 
     override fun initObserver() {
+        viewModel.favouriteSongsId.onEach { songsId ->
+            val songId = viewModel.musicStateFlow.value?.song?.id
+            val isFavourite = songsId.contains(songId)
+            binding.imvFavourite.isSelected = isFavourite
+        }.launchIn(lifecycleScope)
     }
 }

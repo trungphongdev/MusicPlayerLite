@@ -1,67 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginBottom="16dp"
-    android:layout_marginTop="8dp"
-    android:gravity="center_vertical"
-    android:orientation="horizontal">
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imvSong"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:scaleType="centerCrop"
-        app:shapeAppearance="@style/roundImageViewSong"
-        app:srcCompat="@drawable/ic_music" />
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="@android:color/transparent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:background="@drawable/bg_folder"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSong"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imvSong"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            app:shapeAppearance="@style/roundImageViewSong"
+            app:srcCompat="@drawable/ic_music" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/gilroy_medium"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                tools:text="Name Song" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_artist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:alpha="0.8"
+                android:fontFamily="@font/gilroy_regular"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                tools:text="Name Singer" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animViewSong"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:visibility="invisible"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/anim_music" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imvMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/gilroy_medium"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            tools:text="Name Song" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_artist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:alpha="0.8"
-            android:fontFamily="@font/gilroy_regular"
-            android:maxLines="1"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            tools:text="Name Singer" />
+            android:layout_marginStart="12dp"
+            app:srcCompat="@drawable/ic_more" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animViewSong"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:visibility="invisible"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/anim_music" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imvMore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        app:srcCompat="@drawable/ic_more" />
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.cardview.widget.CardView>

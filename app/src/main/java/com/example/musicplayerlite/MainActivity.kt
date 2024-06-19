@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         initViewsListener()
         myNoisyAudioStreamReceiver.onBecomingNoisy = {
             if (it) {
-                mService?.pauseSong()
+                //mService?.pauseSong()
             }
         }
     }
@@ -75,24 +75,24 @@ class MainActivity : AppCompatActivity() {
         }
         listenerPlayback = object : PlaybackInfoListener {
             override fun onDurationChanged(duration: Int) {
-                mService?.seekTo(duration)
+               // mService?.seekTo(duration)
             }
 
             override fun onPositionChanged(position: Int) {
-                if (position != mService?.getPosition()) {
+               /* if (position != mService?.getPosition()) {
                     mService?.setSongIndex(position)
                     startForegroundService()
-                }
+                }*/
             }
 
             override fun onStateChanged(action: Int) {
                 when (action) {
-                    PlaybackInfoListener.Action.PAUSED -> mService?.pauseSong()
+/*                    PlaybackInfoListener.Action.PAUSED -> mService?.pauseSong()
                     PlaybackInfoListener.Action.SHUFFLE -> mService?.setShuffle()
                     PlaybackInfoListener.Action.LOOPING -> mService?.setLooping()
                     PlaybackInfoListener.Action.PREVIOUS -> mService?.playPrevious()
                     PlaybackInfoListener.Action.NEXT -> mService?.playNextSong()
-                    PlaybackInfoListener.Action.PLAYING -> mService?.resumeSong()
+                    PlaybackInfoListener.Action.PLAYING -> mService?.resumeSong()*/
                 }
             }
 
@@ -107,8 +107,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.serviceConnected.onEach { isConnected ->
             if (isConnected && mService != null) {
                 mService?.apply {
-                    setListSong(viewModel.songUiState.value)
-                    viewModel.setMediaPlayer(getMediaPlayer())
+                    //setListSong(viewModel.songUiState.value)
+                 //   viewModel.setMediaPlayer(getMediaPlayer())
                 }
             }
         }.launchIn(lifecycleScope)
@@ -129,7 +129,6 @@ class MainActivity : AppCompatActivity() {
         volumeControlStream = AudioManager.STREAM_MUSIC
     }
 
-
     override fun onStop() {
         super.onStop()
         unregisterReceiver(myNoisyAudioStreamReceiver)
@@ -138,7 +137,6 @@ class MainActivity : AppCompatActivity() {
         mService = null
         viewModel.setServiceHasConnected(false)
     }
-
 
     private fun startForegroundService() {
         val intent = Intent(this@MainActivity, MusicService::class.java)
