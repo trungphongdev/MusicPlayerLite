@@ -1,62 +1,82 @@
 package com.example.musicplayerlite.media
 
-import com.example.musicplayerlite.repository.IMediaRepository
-import kotlinx.coroutines.CoroutineScope
+import android.content.Context
+import com.example.musicplayerlite.model.Song
 
 class MusicPlayerController(
-    private val musicRepository: IMediaRepository,
+    private val applicationContext: Context,
     private val musicPlayerManager: MusicPlayerManager,
-    private val coroutineScope: CoroutineScope,
-) {
-    fun setShuffle() = musicPlayerManager.configMedia {  }
-    fun setLooping() = musicPlayerManager.configMedia { isLooping = true }
-    fun seekTo(duration: Int) =  musicPlayerManager.configMedia { seekTo(duration) }
-    fun getDuration(): Int = musicPlayerManager.getMediaPlayer().duration
-    fun getPosition(): Int = musicPlayerManager.getMediaPlayer().currentPosition
-    fun hasPlaying(): Boolean = musicPlayerManager.getMediaPlayer().isPlaying
-    fun pauseSong() {
-        musicPlayerManager.configMedia { pause() }
-/*        lifecycleScope.launch {
-            if (isActive) {
-                musicDataStore.updateCurrentSong(
-                    indexSong = indexSong,
-                    song = listSong[indexSong],
-                    isPlaying = false,
-                    duration = getDuration(),
-                )
+) : IMusicPlayerController {
+
+    init {
+        musicPlayerManager.addListener(
+            object : IMusicPlayerListener {
+                override fun onError() {
+                    /* no-op */
+                }
+
+                override fun onPrepared() {
+                    /* no-op */
+                }
+
+                override fun onCompletion() {
+                    nextSong()
+                }
             }
-        }*/
-    }
-    fun resumeSong() {
-/*        mediaPlayer?.start()
-        lifecycleScope.launch {
-            if (isActive) {
-                musicDataStore.updateCurrentSong(
-                    indexSong = indexSong,
-                    song = listSong[indexSong],
-                    isPlaying = true,
-                    duration = getDuration(),
-                )
-            }
-        }*/
+        )
     }
 
-/*    fun setSongIndex(index: Int) {
-        if (index == indexSong) return
-        indexSong = index
-    }*/
+    fun setListener(listener: IMusicPlayerListener) {
+        musicPlayerManager.addListener(listener)
+    }
 
+    override fun playSongs(index: Int, songs: List<Song>) {
+        musicPlayerManager.setMediaItems(songs)
+        songs.getOrNull(index)?.let(::playSong)
+    }
 
-/*    private fun playSong(song: Song) {
-        val currentSong = listSong.getOrNull(indexSong) ?: return
-        mediaPlayer?.reset()
-        mediaPlayer?.setDataSource(applicationContext, song.mediaUri)
-        mediaPlayer?.prepareAsync()
-    }*/
+    override fun playSong(song: Song) {
+        musicPlayerManager.configMedia {
+            reset()
+            setDataSource(applicationContext, song.mediaUri)
+            prepareAsync()
+        }
+    }
 
-/*    fun playPrevious() {
+    override fun pauseSong() = musicPlayerManager.configMedia { pause() }
+    override fun stopSong() = musicPlayerManager.configMedia { stop() }
+    override fun previousSong() {
         indexSong--
-        if (indexSong < 0) indexSong = listSong.lastIndex
-        playSong()
-    }*/
+        if (indexSong < 0) indexSong = musicPlayerManager.mediaItems.lastIndex
+        musicPlayerManager.configMedia {
+            reset()
+            setDataSource(
+                applicationContext,
+                musicPlayerManager.mediaItems[indexSong].mediaUri
+            )
+            prepareAsync()
+        }
+    }
+
+    var indexSong = 0
+    override fun nextSong() {
+        indexSong++
+        if (indexSong > musicPlayerManager.mediaItems.lastIndex) indexSong =
+            MediaConst.DEFAULT_INDEX
+        musicPlayerManager.configMedia {
+            reset()
+            setDataSource(applicationContext, musicPlayerManager.mediaItems[indexSong].mediaUri)
+            prepareAsync()
+        }
+    }
+
+    override fun seekTo(duration: Int) = musicPlayerManager.configMedia { seekTo(duration) }
+
+    override fun setLooping() = musicPlayerManager.configMedia { isLooping = true }
+
+    override fun isPlaying(): Boolean = musicPlayerManager.getMediaPlayer().isPlaying
+
+    fun setShuffle() = musicPlayerManager.configMedia { }
+    fun getDuration(): Int = musicPlayerManager.getMediaPlayer().duration
+
 }
