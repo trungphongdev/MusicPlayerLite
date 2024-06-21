@@ -11,6 +11,22 @@ class MusicPlayerManager(private val applicationContext: Context) : MediaPlayer.
 
     private val mediaPlayer = MediaPlayer()
 
+    private var IMusicPlayerListener: IMusicPlayerListener? = null
+
+    fun addListener(listener: IMusicPlayerListener) {
+        IMusicPlayerListener = listener
+    }
+
+    val mediaItems: MutableList<Song> = mutableListOf()
+
+
+    fun setMediaItems(songs: List<Song>) {
+        if (mediaItems != songs) {
+            mediaItems.clear()
+            mediaItems.addAll(songs)
+        }
+    }
+
     init {
         try {
             mediaPlayer.apply {
@@ -32,22 +48,18 @@ class MusicPlayerManager(private val applicationContext: Context) : MediaPlayer.
 
     override fun onPrepared(mp: MediaPlayer?) {
         mediaPlayer.start()
+        IMusicPlayerListener?.onPrepared()
     }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
         mediaPlayer.reset()
+        IMusicPlayerListener?.onError()
         return false
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
         mediaPlayer.reset()
-    }
-
-
-    fun playSong(song: Song) {
-        mediaPlayer.reset()
-        mediaPlayer.setDataSource(applicationContext, song.mediaUri)
-        mediaPlayer.prepareAsync()
+        IMusicPlayerListener?.onCompletion()
     }
 
     fun configMedia(builder: MediaPlayer.() -> Unit) {
@@ -58,3 +70,10 @@ class MusicPlayerManager(private val applicationContext: Context) : MediaPlayer.
         return mediaPlayer
     }
 }
+
+interface IMusicPlayerListener {
+    abstract fun onPrepared()
+    abstract fun onError()
+    abstract fun onCompletion()
+}
+

@@ -1,5 +1,6 @@
 package com.example.musicplayerlite.datasource
 
+import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.os.Build
@@ -17,6 +18,7 @@ class MusicMediaDataSource(
     private val contentResolver: ContentResolver
 ) {
 
+    @SuppressLint("BuildListAdds")
     fun getSongs(
         sortOrder: SortOrder,
         sortBy: SortBy,
