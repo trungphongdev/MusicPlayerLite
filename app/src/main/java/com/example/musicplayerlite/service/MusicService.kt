@@ -16,6 +16,7 @@ import com.example.musicplayerlite.common.createNotificationChannel
 import com.example.musicplayerlite.datastore.IMusicDataStore
 import com.example.musicplayerlite.media.IMusicPlayerController
 import com.example.musicplayerlite.media.MusicPlayerController
+import com.example.musicplayerlite.model.Song
 import org.koin.android.ext.android.inject
 import org.koin.core.component.KoinComponent
 
@@ -25,6 +26,7 @@ class MusicService : LifecycleService(), KoinComponent  {
     private var indexSong: Int = Const.NO_POSITION
     private val musicDataStore: IMusicDataStore by inject()
     private val musicController: IMusicPlayerController by inject()
+    private val listSong = mutableListOf<Song>()
 
     override fun onCreate() {
         super.onCreate()
@@ -33,7 +35,7 @@ class MusicService : LifecycleService(), KoinComponent  {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-         musicController.
+//         musicController.
        // listSong.getOrNull(indexSong)?.let(musicPlayerManager::playSong)
         return START_NOT_STICKY
     }
@@ -68,15 +70,9 @@ class MusicService : LifecycleService(), KoinComponent  {
         return false
     }*/
 
-    override fun onDestroy() {
-        super.onDestroy()
-        stopSelf()
-    }
 
 
-    override fun onUnbind(intent: Intent?): Boolean {
-        return false
-    }
+
 
     private fun startForegroundService() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {

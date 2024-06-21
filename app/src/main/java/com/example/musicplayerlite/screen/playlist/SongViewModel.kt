@@ -26,7 +26,7 @@ class SongViewModel(
     private val musicPlayerController: IMusicPlayerController,
 ) : ViewModel() {
 
-    private
+
     var mediaPlayer: MediaPlayer? = null
         private set
     private val _serviceConnected = MutableStateFlow(false)

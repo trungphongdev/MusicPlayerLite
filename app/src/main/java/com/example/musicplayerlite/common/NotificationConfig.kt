@@ -45,6 +45,46 @@ fun createNotification(context: Context, song: Song): Notification {
             PendingIntent.FLAG_UPDATE_CURRENT
         }
     )
+    // Actions
+    val actionPlay = NotificationCompat.Action(
+        R.drawable.ic_play,
+        "Play",
+        PendingIntent.getBroadcast(
+            context,
+            0,
+            Intent(ACTION_PLAY).setPackage(context.packageName),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    )
+    val actionPause = NotificationCompat.Action(R.drawable.ic_pause,
+        "Pause",
+        PendingIntent.getBroadcast(
+            context,
+            0,
+            Intent(ACTION_PAUSE).setPackage(context.packageName),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    )
+    val actionNext = NotificationCompat.Action(
+        R.drawable.ic_next,
+        "Next",
+        PendingIntent.getBroadcast(
+            context,
+            0,
+            Intent(ACTION_NEXT).setPackage(context.packageName),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    )
+    val actionPrevious = NotificationCompat.Action(
+        R.drawable.ic_previous,
+        "Previous",
+        PendingIntent.getBroadcast(
+            context,
+            0,
+            Intent(ACTION_PREVIOUS).setPackage(context.packageName),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+    )
     return NotificationCompat.Builder(context, CHANNEL_ID)
         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
         .setSmallIcon(R.drawable.ic_music)

@@ -2,25 +2,16 @@ package com.example.musicplayerlite.model
 
 import android.content.Context
 import android.net.Uri
+import android.os.Parcelable
 import com.example.musicplayerlite.R
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.json.Json
+import kotlinx.parcelize.Parcelize
 
-@Serializable
+@Parcelize
 data class Song(
     val id: String,
     val artistId: Long,
     val albumId: Long,
-    @Serializable(with = UriAsStringSerializer::class)
     val mediaUri: Uri,
-    @Serializable(with = ArtWorkUriAsStringSerializer::class)
     val artworkUri: Uri,
     val title: String,
     val artist: String,
@@ -29,7 +20,7 @@ data class Song(
     val duration: Long,
     val date: Long,
     val isFavorite: Boolean,
-) {
+): Parcelable {
     fun getNameArtist(context: Context): String {
         return artist
             .takeUnless { it == context.getString(R.string.unknown) }
@@ -37,40 +28,3 @@ data class Song(
     }
 }
 
-
-object UriAsStringSerializer : KSerializer<Uri> {
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("mediaUri", PrimitiveKind.STRING)
-
-    override fun serialize(encoder: Encoder, value: Uri) {
-        encoder.encodeString("")
-    }
-
-    override fun deserialize(decoder: Decoder): Uri {
-        return Uri.parse(decoder.decodeString())
-    }
-}
-
-object ArtWorkUriAsStringSerializer : KSerializer<Uri> {
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("artworkUri", PrimitiveKind.STRING)
-
-    override fun serialize(encoder: Encoder, value: Uri) {
-        encoder.encodeString(value.toString())
-    }
-
-    override fun deserialize(decoder: Decoder): Uri {
-        return Uri.parse(decoder.decodeString())
-    }
-}
-
-fun main() {
-    val b = Json.encodeToString(A())
-    println(b)
-    val convert = Json.decodeFromString<A>(b)
-    println(convert)
-}
-@Serializable
-data class A(val name: String = "Phong", val b: B = B())
-@Serializable
-data class B(val age: Int = 4)
