@@ -1,17 +1,21 @@
 package com.example.musicplayerlite.common
 
 import android.app.Notification
+import android.app.Notification.MediaStyle
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.MediaMetadata
 import android.os.Build
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.example.musicplayerlite.MainActivity
 import com.example.musicplayerlite.R
 import com.example.musicplayerlite.model.Song
+import com.example.musicplayerlite.utils.Utils
+
 
 const val CHANNEL_ID = "MUSIC_CHANNEL_ID"
 const val NOTIFY_ID = 1
@@ -33,13 +37,21 @@ fun createNotificationChannel(context: Context) {
 fun createNotification(context: Context, song: Song): Notification {
     val notIntent = Intent(context, MainActivity::class.java)
     notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-    val pendInt = PendingIntent.getActivity(context, 0, notIntent, PendingIntent.FLAG_IMMUTABLE)
+    val pendingIntent = PendingIntent.getActivity(
+        context, 0, notIntent,
+        if (Utils.isAndroidS()) {
+            PendingIntent.FLAG_IMMUTABLE
+        } else {
+            PendingIntent.FLAG_UPDATE_CURRENT
+        }
+    )
     return NotificationCompat.Builder(context, CHANNEL_ID)
         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
         .setSmallIcon(R.drawable.ic_music)
         .setOngoing(true)
-        .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+
         .setCustomContentView(getRemoteViewsNormal(context, song))
+        .setContentIntent(pendingIntent)
         .setCustomBigContentView(getRemoteViewsExpand(context, song))
         .setOnlyAlertOnce(true)
         .setAutoCancel(false)
