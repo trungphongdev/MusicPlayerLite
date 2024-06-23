@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 class SongViewModel(
     private val savedStateHandle: SavedStateHandle,
-    mediaRepository: IMediaRepository,
+    private val mediaRepository: IMediaRepository,
     private val musicDataStore: IMusicDataStore,
     private val musicPlayerController: IMusicPlayerController,
 ) : ViewModel() {

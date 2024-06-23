@@ -4,27 +4,16 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.PowerManager
-import com.example.musicplayerlite.model.Song
 
 class MusicPlayerManager(private val applicationContext: Context) : MediaPlayer.OnPreparedListener,
     MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 
     private val mediaPlayer = MediaPlayer()
 
-    private var IMusicPlayerListener: IMusicPlayerListener? = null
+    private var musicPlayerListener: IMusicPlayerListener? = null
 
     fun addListener(listener: IMusicPlayerListener) {
-        IMusicPlayerListener = listener
-    }
-
-    val mediaItems: MutableList<Song> = mutableListOf()
-
-
-    fun setMediaItems(songs: List<Song>) {
-        if (mediaItems != songs) {
-            mediaItems.clear()
-            mediaItems.addAll(songs)
-        }
+        musicPlayerListener = listener
     }
 
     init {
@@ -48,18 +37,18 @@ class MusicPlayerManager(private val applicationContext: Context) : MediaPlayer.
 
     override fun onPrepared(mp: MediaPlayer?) {
         mediaPlayer.start()
-        IMusicPlayerListener?.onPrepared()
+        musicPlayerListener?.onPrepared()
     }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
         mediaPlayer.reset()
-        IMusicPlayerListener?.onError()
+        musicPlayerListener?.onError()
         return false
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
         mediaPlayer.reset()
-        IMusicPlayerListener?.onCompletion()
+        musicPlayerListener?.onCompletion()
     }
 
     fun configMedia(builder: MediaPlayer.() -> Unit) {

@@ -5,17 +5,20 @@ import com.example.musicplayerlite.di.koinAppModule
 import kotlinx.coroutines.MainScope
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.context.startKoin
+import org.koin.core.lazyModules
 
 class App : Application() {
     val applicationScope = MainScope()
 
+    @OptIn(KoinExperimentalAPI::class)
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidContext(this@App)
             androidLogger()
-            modules(koinAppModule)
+            androidContext(this@App)
+            lazyModules(koinAppModule)
         }
     }
 }

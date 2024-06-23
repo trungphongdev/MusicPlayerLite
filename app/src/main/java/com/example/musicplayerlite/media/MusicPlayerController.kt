@@ -2,36 +2,49 @@ package com.example.musicplayerlite.media
 
 import android.content.Context
 import com.example.musicplayerlite.model.Song
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 
 class MusicPlayerController(
     private val applicationContext: Context,
     private val musicPlayerManager: MusicPlayerManager,
-) : IMusicPlayerController {
+    private val coroutineScope: CoroutineScope,
+) : IMusicPlayerController, KoinComponent {
 
-    init {
-        musicPlayerManager.addListener(
-            object : IMusicPlayerListener {
-                override fun onError() {
-                    /* no-op */
-                }
+    private val mediaItems: MutableList<Song> = mutableListOf()
+    private var currentIndex = 0
 
-                override fun onPrepared() {
-                    /* no-op */
-                }
-
-                override fun onCompletion() {
-                    nextSong()
-                }
+    private fun setMediaItems(songs: List<Song>) {
+        coroutineScope.launch {
+            if (mediaItems != songs) {
+                mediaItems.clear()
+                mediaItems.addAll(songs)
             }
-        )
+        }
     }
 
-    fun setListener(listener: IMusicPlayerListener) {
+    override fun setListener(listener: IMusicPlayerListener) {
         musicPlayerManager.addListener(listener)
     }
 
+    override fun currentSong(): Song {
+       return mediaItems[currentIndex]
+    }
+
+    override fun release() {
+        musicPlayerManager.configMedia {
+            reset()
+            release()
+        }
+    }
+
+    override fun init() {
+        playSongs(currentIndex, mediaItems)
+    }
+
     override fun playSongs(index: Int, songs: List<Song>) {
-        musicPlayerManager.setMediaItems(songs)
+        setMediaItems(songs)
         songs.getOrNull(index)?.let(::playSong)
     }
 
@@ -47,12 +60,12 @@ class MusicPlayerController(
     override fun stopSong() = musicPlayerManager.configMedia { stop() }
     override fun previousSong() {
         indexSong--
-        if (indexSong < 0) indexSong = musicPlayerManager.mediaItems.lastIndex
+        if (indexSong < 0) indexSong = mediaItems.lastIndex
         musicPlayerManager.configMedia {
             reset()
             setDataSource(
                 applicationContext,
-                musicPlayerManager.mediaItems[indexSong].mediaUri
+                mediaItems[indexSong].mediaUri
             )
             prepareAsync()
         }
@@ -61,11 +74,11 @@ class MusicPlayerController(
     var indexSong = 0
     override fun nextSong() {
         indexSong++
-        if (indexSong > musicPlayerManager.mediaItems.lastIndex) indexSong =
+        if (indexSong > mediaItems.lastIndex) indexSong =
             MediaConst.DEFAULT_INDEX
         musicPlayerManager.configMedia {
             reset()
-            setDataSource(applicationContext, musicPlayerManager.mediaItems[indexSong].mediaUri)
+            setDataSource(applicationContext, mediaItems[indexSong].mediaUri)
             prepareAsync()
         }
     }

@@ -11,9 +11,9 @@ interface IMusicPlayerController {
     fun nextSong()
     fun setLooping()
     fun isPlaying(): Boolean
-
     fun seekTo(duration: Int)
-
-   // fun currentSong(): Song
-
+    fun setListener(listener: IMusicPlayerListener)
+    fun currentSong(): Song
+    fun release()
+    fun init()
 }

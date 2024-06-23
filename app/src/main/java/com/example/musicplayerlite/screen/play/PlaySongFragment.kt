@@ -15,7 +15,7 @@ import com.example.musicplayerlite.base.BaseFragment
 import com.example.musicplayerlite.common.Const
 import com.example.musicplayerlite.common.PlaybackInfoListener
 import com.example.musicplayerlite.databinding.FragmentPlaySongBinding
-import com.example.musicplayerlite.extention.toWholeSeconds
+import com.example.musicplayerlite.extention.loadImage
 import com.example.musicplayerlite.screen.playlist.SongViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import java.util.concurrent.TimeUnit
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -33,16 +32,15 @@ class PlaySongFragment : BaseFragment<FragmentPlaySongBinding>() {
     private val viewModel by activityViewModel<SongViewModel>()
     private var jobCurrentPosition: Job? = null
     private val durationTotal
-        get() = viewModel.mediaPlayer?.duration?.toLong().toWholeSeconds()
+        get() = /*viewModel.mediaPlayer?.duration?.toLong().toWholeSeconds()*/0
     private val durationCurrent
-        get() = viewModel.mediaPlayer?.currentPosition?.toLong().toWholeSeconds()
+        get() = /*viewModel.mediaPlayer?.currentPosition?.toLong().toWholeSeconds()*/ 0
 
     override fun getViewBinding(): FragmentPlaySongBinding {
         return FragmentPlaySongBinding.inflate(layoutInflater)
     }
 
     override fun initData() {
-
     }
 
     override fun initView() {
@@ -53,16 +51,8 @@ class PlaySongFragment : BaseFragment<FragmentPlaySongBinding>() {
                 with(binding) {
                     tvNameSong.text = song.title
                     tvArtist.text = song.getNameArtist(baseContext)
-                    binding.seekbarSong.max = 0
-                    binding.seekbarSong.progress = 0
+                    imvAlbumArtist.loadImage(song.artworkUri)
                     setUpSeekbarAndTimeSong()
-                    Glide.with(this@PlaySongFragment)
-                        .load(song.artworkUri)
-                        .centerCrop()
-                        .skipMemoryCache(true)
-                        .placeholder(R.drawable.ic_song_placeholder)
-                        .error(R.drawable.ic_song_placeholder)
-                        .into(imvAlbumArtist)
                     120.seconds.toComponents { minutes, seconds, nanoseconds ->
                         binding.tvMaxTimeSong.text = "$minutes   $seconds"
                         Log.d("tag123", "toDuration: " + minutes)
