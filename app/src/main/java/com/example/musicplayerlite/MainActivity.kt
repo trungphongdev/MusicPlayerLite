@@ -69,7 +69,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewsListener() {
         onBackPressedDispatcher.addCallback {
-            if (findNavController(R.id.nav_host_fragment).popBackStack().not()) {
+            val isEmptyBackStack = findNavController(R.id.nav_host_fragment).popBackStack().not()
+            if (isEmptyBackStack) {
                 finish()
             }
         }

@@ -1,4 +1,4 @@
-package com.art.aiartgenerator.extention
+package com.example.musicplayerlite.extention
 
 import android.content.ClipData
 import android.content.ClipboardManager

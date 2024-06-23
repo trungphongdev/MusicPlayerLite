@@ -4,12 +4,17 @@ import android.content.Context
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.os.PowerManager
-import com.example.musicplayerlite.model.Song
 
 class MusicPlayerManager(private val applicationContext: Context) : MediaPlayer.OnPreparedListener,
     MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 
     private val mediaPlayer = MediaPlayer()
+
+    private var musicPlayerListener: IMusicPlayerListener? = null
+
+    fun addListener(listener: IMusicPlayerListener) {
+        musicPlayerListener = listener
+    }
 
     init {
         try {
@@ -32,22 +37,18 @@ class MusicPlayerManager(private val applicationContext: Context) : MediaPlayer.
 
     override fun onPrepared(mp: MediaPlayer?) {
         mediaPlayer.start()
+        musicPlayerListener?.onPrepared()
     }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
         mediaPlayer.reset()
+        musicPlayerListener?.onError()
         return false
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
         mediaPlayer.reset()
-    }
-
-
-    fun playSong(song: Song) {
-        mediaPlayer.reset()
-        mediaPlayer.setDataSource(applicationContext, song.mediaUri)
-        mediaPlayer.prepareAsync()
+        musicPlayerListener?.onCompletion()
     }
 
     fun configMedia(builder: MediaPlayer.() -> Unit) {
@@ -58,3 +59,10 @@ class MusicPlayerManager(private val applicationContext: Context) : MediaPlayer.
         return mediaPlayer
     }
 }
+
+interface IMusicPlayerListener {
+    abstract fun onPrepared()
+    abstract fun onError()
+    abstract fun onCompletion()
+}
+
