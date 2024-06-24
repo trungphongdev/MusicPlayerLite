@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.IBinder
 import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -47,7 +48,6 @@ class MainActivity : AppCompatActivity() {
             mBound = false
         }
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
