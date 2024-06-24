@@ -11,6 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleService
 import com.example.musicplayerlite.common.Const
 import com.example.musicplayerlite.common.NOTIFY_ID
+import com.example.musicplayerlite.common.NotificationConfig.NOTIFY_ID
+import com.example.musicplayerlite.common.NotificationConfig.createNotification
+import com.example.musicplayerlite.common.NotificationConfig.createNotificationChannel
 import com.example.musicplayerlite.common.createNotification
 import com.example.musicplayerlite.common.createNotificationChannel
 import com.example.musicplayerlite.datastore.IMusicDataStore

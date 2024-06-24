@@ -26,5 +26,9 @@
     <string name="artist_song">Artists Song</string>
     <string name="albums_song">Alums Song</string>
     <string name="play_list_song">Playlist Song</string>
+    <string name="action_play">Play</string>
+    <string name="action_pause">Pause</string>
+    <string name="action_next">Next</string>
+    <string name="action_previous">Previous</string>
 
 </resources>

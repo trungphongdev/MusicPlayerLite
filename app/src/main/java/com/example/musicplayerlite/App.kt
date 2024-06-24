@@ -9,9 +9,13 @@ import org.koin.core.context.startKoin
 
 class App : Application() {
     val applicationScope = MainScope()
+    companion object {
+        lateinit var instance: App
+    }
 
     override fun onCreate() {
         super.onCreate()
+        instance = this@App
         startKoin {
             androidContext(this@App)
             androidLogger()
