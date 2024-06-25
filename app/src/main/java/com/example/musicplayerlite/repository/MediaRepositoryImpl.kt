@@ -22,7 +22,6 @@ class MediaRepositoryImpl(
         .distinctUntilChanged()
         .flowOn(Dispatchers.IO)
 
-
     override val artists: Flow<List<Artist>> = songs.map(transform = { songs ->
         songs.groupBy(Song::artistId).map { (artistId, songs) ->
             Artist(id = artistId, songs = songs, name = songs.first().artist)

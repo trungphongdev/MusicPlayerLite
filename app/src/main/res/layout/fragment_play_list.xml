@@ -16,18 +16,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_back" />
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Playlist"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/imvBack"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@id/imvBack"
-        android:fontFamily="@font/gilroy_semibold"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvPlayList"
         android:layout_width="0dp"
@@ -35,6 +23,7 @@
         android:orientation="vertical"
         android:overScrollMode="never"
         android:paddingTop="20dp"
+        tools:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,5 +31,51 @@
         app:layout_constraintTop_toBottomOf="@id/imvBack"
         tools:itemCount="20"
         tools:listitem="@layout/layout_item_song" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupViewEmptyData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="imvEmptyData,tvEpmtyData"
+        android:visibility="gone"
+        tools:ignore="UnknownId" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/playlist"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imvBack"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/imvBack"
+        android:fontFamily="@font/gilroy_semibold"/>
+
+    <ImageView
+        android:id="@+id/imvEmptyData"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/img_empty_data"
+        android:scaleType="centerCrop"
+        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvEpmtyData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_songs_yet"
+        android:textAllCaps="true"
+        android:textAlignment="center"
+        android:fontFamily="@font/gilroy_semibold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imvEmptyData"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

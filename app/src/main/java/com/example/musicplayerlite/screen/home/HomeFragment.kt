@@ -19,13 +19,14 @@ import com.example.musicplayerlite.permission.PermissionHelper
 import com.example.musicplayerlite.screen.playlist.SongViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import java.lang.ref.WeakReference
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val viewModel by activityViewModel<SongViewModel>()
     private lateinit var adapterActivities: MusicActivitiesAdapter
-    private val permissionHelper: PermissionHelper = PermissionHelper()
+    private val permissionHelper: PermissionHelper by inject()
     private var requestPermissionLauncher: ActivityResultLauncher<String>? = null
 
     override fun onAttach(context: Context) {
@@ -38,7 +39,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             onDenied = {
                 Log.d("tag123", "onDenied: ");
             })
-
     }
 
     override fun getViewBinding(): FragmentHomeBinding {
@@ -47,27 +47,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun initData() {
         adapterActivities = MusicActivitiesAdapter()
+        checkAndRequestPostNotifyPermission()
     }
 
     override fun initView() {
         setUpRcv()
-        permissionHelper.checkAndRequestPermission(requireContext(),
-            Manifest.permission.READ_MEDIA_AUDIO,
-            requestPermissionLauncher ?: return,
-            object : PermissionCallback {
-                override fun onGranted() {
-                    Log.d("tag123", "PermissionCallback onGranted: ");
-                }
-
-                override fun onDenied() {
-                    Log.d("tag123", "PermissionCallback onDenied: ");
-                }
-
-                override fun onRationale() {
-                    Log.d("tag123", "PermissionCallback onRationale: ");
-                }
-            }
-        )
     }
 
     override fun initViewListener() {
@@ -111,6 +95,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }.launchIn(lifecycleScope)
         }
     }
+
+    private fun checkAndRequestPostNotifyPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            permissionHelper.checkAndRequestPermission(requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS,
+                requestPermissionLauncher ?: return,
+                object : PermissionCallback {
+                    override fun onGranted() {
+                        Log.d("tag123", "PermissionCallback Noti onGranted: ");
+                    }
+
+                    override fun onDenied() {
+                        Log.d("tag123", "PermissionCallback Noti onDenied: ");
+                    }
+
+                    override fun onRationale() {
+                        Log.d("tag123", "PermissionCallback Noti onRationale: ");
+                    }
+                }
+            )
+        }
+    }
+
 
     private fun setUpRcv() {
         with(binding.iclYourActivities.rcvYourActivities) {

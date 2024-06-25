@@ -5,5 +5,5 @@ import org.koin.dsl.lazyModule
 
 @OptIn(KoinExperimentalAPI::class)
 val koinAppModule = lazyModule {
-    includes(serviceModule, repositoryModule, viewModelModule, dataStoreModule, mediaModule)
+    includes(serviceModule, repositoryModule, viewModelModule, dataStoreModule, mediaModule, commonModule)
 }

@@ -1,6 +1,6 @@
 package com.example.musicplayerlite.media
 
 object MediaConst {
-    val DEFAULT_INDEX: Int = 0
-    val DEFAULT_MEDIA_ID = ""
+    const val DEFAULT_INDEX: Int = 0
+    const val DEFAULT_MEDIA_ID = ""
 }

@@ -20,6 +20,7 @@ import com.example.musicplayerlite.common.PlaybackInfoListener
 import com.example.musicplayerlite.databinding.ActivityMainBinding
 import com.example.musicplayerlite.extention.displayCutout
 import com.example.musicplayerlite.extention.hideSystemBar
+import com.example.musicplayerlite.extention.insetPaddingSystemBar
 import com.example.musicplayerlite.extention.setStatusBarColor
 import com.example.musicplayerlite.screen.playlist.SongViewModel
 import com.example.musicplayerlite.service.MusicService

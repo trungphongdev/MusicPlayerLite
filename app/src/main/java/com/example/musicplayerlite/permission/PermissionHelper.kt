@@ -7,21 +7,19 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import java.lang.ref.WeakReference
 
 class PermissionHelper {
-    private val declarePermissions = buildList<String> {
+    val readMediaAudioPermission =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            add(Manifest.permission.POST_NOTIFICATIONS)
-            add(Manifest.permission.READ_MEDIA_AUDIO)
+            Manifest.permission.READ_MEDIA_AUDIO
         } else {
-            add(Manifest.permission.READ_EXTERNAL_STORAGE)
+            Manifest.permission.READ_EXTERNAL_STORAGE
         }
-    }
+
 
     fun isPermissionGranted(context: Context, permission: String): Boolean {
         return ContextCompat.checkSelfPermission(

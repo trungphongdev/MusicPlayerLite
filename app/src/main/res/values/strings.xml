@@ -26,5 +26,8 @@
     <string name="artist_song">Artists Song</string>
     <string name="albums_song">Alums Song</string>
     <string name="play_list_song">Playlist Song</string>
+    <string name="permission_audio_description">By granting access to audio, you\'ll unlock a world of vibrant music and enjoy the best music experiences</string>
+    <string name="get_songs">Get Songs</string>
+    <string name="no_songs_yet">No songs yet</string>
 
 </resources>
