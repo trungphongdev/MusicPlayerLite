@@ -32,11 +32,7 @@
         <receiver
             android:name=".receiver.MusicReceiver"
             android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-
-            </intent-filter>
-        </receiver>
+            android:exported="false" />
 
         <service
             android:name=".service.MusicService"

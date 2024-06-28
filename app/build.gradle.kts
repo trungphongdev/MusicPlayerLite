@@ -70,7 +70,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.fragment.ktx)
     implementation(platform(libs.koin.bom))
-    implementation(libs.koin.core)
+    implementation(libs.koin.core.coroutines)
     implementation(libs.koin.android)
     ksp(libs.koin.ksp.compiler)
     implementation(libs.androidx.datastore.preferences)

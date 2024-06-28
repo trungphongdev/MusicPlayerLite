@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.IBinder
 import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +20,7 @@ import com.example.musicplayerlite.common.PlaybackInfoListener
 import com.example.musicplayerlite.databinding.ActivityMainBinding
 import com.example.musicplayerlite.extention.displayCutout
 import com.example.musicplayerlite.extention.hideSystemBar
+import com.example.musicplayerlite.extention.insetPaddingSystemBar
 import com.example.musicplayerlite.extention.setStatusBarColor
 import com.example.musicplayerlite.screen.playlist.SongViewModel
 import com.example.musicplayerlite.service.MusicService
@@ -48,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -69,7 +70,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewsListener() {
         onBackPressedDispatcher.addCallback {
-            if (findNavController(R.id.nav_host_fragment).popBackStack().not()) {
+            val isEmptyBackStack = findNavController(R.id.nav_host_fragment).popBackStack().not()
+            if (isEmptyBackStack) {
                 finish()
             }
         }

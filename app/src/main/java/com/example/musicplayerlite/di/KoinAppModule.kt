@@ -1,7 +1,9 @@
 package com.example.musicplayerlite.di
 
-import org.koin.dsl.module
+import org.koin.core.annotation.KoinExperimentalAPI
+import org.koin.dsl.lazyModule
 
-val koinAppModule = module {
-    includes(serviceModule, repositoryModule, viewModelModule, dataStoreModule, mediaModule)
+@OptIn(KoinExperimentalAPI::class)
+val koinAppModule = lazyModule {
+    includes(serviceModule, repositoryModule, viewModelModule, dataStoreModule, mediaModule, commonModule)
 }

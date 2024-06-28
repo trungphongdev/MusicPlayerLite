@@ -9,37 +9,45 @@ import android.os.IBinder
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleService
-import com.example.musicplayerlite.common.Const
-import com.example.musicplayerlite.common.NOTIFY_ID
-import com.example.musicplayerlite.common.NotificationConfig.NOTIFY_ID
-import com.example.musicplayerlite.common.NotificationConfig.createNotification
-import com.example.musicplayerlite.common.NotificationConfig.createNotificationChannel
-import com.example.musicplayerlite.common.createNotification
-import com.example.musicplayerlite.common.createNotificationChannel
-import com.example.musicplayerlite.datastore.IMusicDataStore
+import com.example.musicplayerlite.common.NotificationConfig
 import com.example.musicplayerlite.media.IMusicPlayerController
-import com.example.musicplayerlite.media.MusicPlayerController
-import com.example.musicplayerlite.model.Song
+import com.example.musicplayerlite.media.IMusicPlayerListener
 import org.koin.android.ext.android.inject
-import org.koin.core.component.KoinComponent
 
 
-class MusicService : LifecycleService(), KoinComponent  {
+class MusicService : LifecycleService()  {
     private val binder = MusicBinder()
-    private var indexSong: Int = Const.NO_POSITION
-    private val musicDataStore: IMusicDataStore by inject()
     private val musicController: IMusicPlayerController by inject()
-    private val listSong = mutableListOf<Song>()
+
+    private val mediaListener = object: IMusicPlayerListener {
+        override fun onError() {
+            /* no-op */
+        }
+
+        override fun onPrepared() {
+/*                    musicDataStore.updateCurrentSong(
+                        indexSong = indexSong,
+                        song = listSong[indexSong],
+                        isPlaying = true,
+                        duration = getDuration(),
+                    )*/
+            startForegroundService()
+        }
+
+        override fun onCompletion() {
+            musicController.nextSong()
+        }
+    }
+
 
     override fun onCreate() {
         super.onCreate()
-        createNotificationChannel(applicationContext)
+        musicController.setListener(mediaListener)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-//         musicController.
-       // listSong.getOrNull(indexSong)?.let(musicPlayerManager::playSong)
+         musicController.init()
         return START_NOT_STICKY
     }
 
@@ -52,30 +60,16 @@ class MusicService : LifecycleService(), KoinComponent  {
         return binder
     }
 
-/*    override fun onPrepared(mp: MediaPlayer?) {
-        mp?.start()
-        lifecycleScope.launch {
-            if (isActive) {
-                musicDataStore.updateCurrentSong(
-                    indexSong = indexSong,
-                    song = listSong[indexSong],
-                    isPlaying = true,
-                    duration = getDuration(),
-                )
-            }
-        }
-        startForegroundService()
+    override fun onDestroy() {
+        super.onDestroy()
+        musicController.release()
+        stopSelf()
     }
 
 
-    override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
-        mediaPlayer?.reset()
+    override fun onUnbind(intent: Intent?): Boolean {
         return false
-    }*/
-
-
-
-
+    }
 
     private fun startForegroundService() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
@@ -90,8 +84,11 @@ class MusicService : LifecycleService(), KoinComponent  {
 
         ServiceCompat.startForeground(
             this,
-            NOTIFY_ID,
-            createNotification(applicationContext, listSong[indexSong]),
+            NotificationConfig.NOTIFY_ID,
+            NotificationConfig.createNotification(
+                applicationContext,
+                musicController.currentSong()
+            ),
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
             } else {

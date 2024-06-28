@@ -5,7 +5,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.art.aiartgenerator.extention.setGradientText
+import com.example.musicplayerlite.extention.setGradientText
 import com.example.musicplayerlite.R
 import com.example.musicplayerlite.adapter.BaseFragmentPagerAdapter
 import com.example.musicplayerlite.base.BaseFragment

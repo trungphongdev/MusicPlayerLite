@@ -20,7 +20,7 @@ class AlbumsAdapter : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
 
         init {
             binding.root.setOnClickListener {
-                onAlbumIndexSelected.invoke(adapterPosition)
+                onAlbumIndexSelected.invoke(bindingAdapterPosition)
             }
             binding.imvAlbumArt.updateLayoutParams {
                 width = itemSize.toInt()
