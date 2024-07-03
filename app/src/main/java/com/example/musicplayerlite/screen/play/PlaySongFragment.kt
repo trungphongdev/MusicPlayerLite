@@ -7,10 +7,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.example.musicplayerlite.App
 import com.example.musicplayerlite.MainActivity
-import com.example.musicplayerlite.R
 import com.example.musicplayerlite.base.BaseFragment
 import com.example.musicplayerlite.common.Const
 import com.example.musicplayerlite.common.PlaybackInfoListener
@@ -24,17 +22,16 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 class PlaySongFragment : BaseFragment<FragmentPlaySongBinding>() {
     private val viewModel by activityViewModel<SongViewModel>()
     private var jobCurrentPosition: Job? = null
     private val durationTotal
-        get() = /*viewModel.mediaPlayer?.duration?.toLong().toWholeSeconds()*/0
+        get() = viewModel.getMusicController().currentSong().duration
     private val durationCurrent
-        get() = /*viewModel.mediaPlayer?.currentPosition?.toLong().toWholeSeconds()*/ 0
+        get() = viewModel.getMusicController().getCurrentPositionPlaying()
 
     override fun getViewBinding(): FragmentPlaySongBinding {
         return FragmentPlaySongBinding.inflate(layoutInflater)
@@ -53,12 +50,11 @@ class PlaySongFragment : BaseFragment<FragmentPlaySongBinding>() {
                     tvArtist.text = song.getNameArtist(baseContext)
                     imvAlbumArtist.loadImage(song.artworkUri)
                     setUpSeekbarAndTimeSong()
-                    120.seconds.toComponents { minutes, seconds, nanoseconds ->
-                        binding.tvMaxTimeSong.text = "$minutes   $seconds"
-                        Log.d("tag123", "toDuration: " + minutes)
+                    song.duration.milliseconds.toComponents { minutes, seconds, _ ->
+                        binding.tvMaxTimeSong.text = "$minutes:$seconds"
                     }
-                    song.duration.toDuration(DurationUnit.MINUTES).inWholeMinutes.also {
-                        Log.d("tag123", "initView: " + it)
+                    durationCurrent.milliseconds.toComponents { minutes, seconds, _ ->
+                        binding.tvCurrentTimeSong.text = "$minutes:$seconds"
                     }
                 }
             }.launchIn(lifecycleScope)
@@ -68,13 +64,16 @@ class PlaySongFragment : BaseFragment<FragmentPlaySongBinding>() {
 
     private fun setUpSeekbarAndTimeSong() {
         jobCurrentPosition?.cancel()
-        binding.seekbarSong.max = durationTotal
+        binding.seekbarSong.max = durationTotal.toInt()
         binding.seekbarSong.progress = durationCurrent
         jobCurrentPosition = (baseContext.applicationContext as App).applicationScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 val durationRemaining = durationTotal - durationCurrent
-                repeat(durationRemaining) {
-                    binding.seekbarSong.progress = durationCurrent + Const.ONE_SECOND_INTERVAL
+                repeat(durationRemaining.toInt()) {
+                    binding.seekbarSong.progress = durationCurrent.plus(Const.ONE_SECOND_INTERVAL)
+                    durationCurrent.milliseconds.toComponents { minutes, seconds, _ ->
+                        binding.tvCurrentTimeSong.text = "$minutes:$seconds"
+                    }
                     delay(1.seconds)
                 }
             }

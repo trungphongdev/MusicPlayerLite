@@ -3,6 +3,7 @@ package com.example.musicplayerlite.media
 import android.content.Context
 import com.example.musicplayerlite.model.Song
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 
@@ -13,9 +14,9 @@ class MusicPlayerController(
 ) : IMusicPlayerController, KoinComponent {
 
     private val mediaItems: MutableList<Song> = mutableListOf()
-    private var currentIndex = 0
+    override var currentIndex = MutableStateFlow(0)
 
-    private fun setMediaItems(songs: List<Song>) {
+    override fun setMediaItems(songs: List<Song>) {
         coroutineScope.launch {
             if (mediaItems != songs) {
                 mediaItems.clear()
@@ -24,12 +25,16 @@ class MusicPlayerController(
         }
     }
 
+    override fun shuffleSong() {
+        mediaItems.shuffle()
+    }
+
     override fun setListener(listener: IMusicPlayerListener) {
         musicPlayerManager.addListener(listener)
     }
 
     override fun currentSong(): Song {
-       return mediaItems[currentIndex]
+       return mediaItems[currentIndex.value]
     }
 
     override fun release() {
@@ -40,7 +45,11 @@ class MusicPlayerController(
     }
 
     override fun init() {
-        playSongs(currentIndex, mediaItems)
+        playSongs(currentIndex.value, mediaItems)
+    }
+
+    override fun getCurrentPositionPlaying(): Int {
+      return  musicPlayerManager.getMediaPlayer().currentPosition
     }
 
     override fun playSongs(index: Int, songs: List<Song>) {

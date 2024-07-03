@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         initViewsListener()
         myNoisyAudioStreamReceiver.onBecomingNoisy = {
             if (it) {
-                //mService?.pauseSong()
+                viewModel.getMusicController().pauseSong()
             }
         }
     }
@@ -77,24 +77,24 @@ class MainActivity : AppCompatActivity() {
         }
         listenerPlayback = object : PlaybackInfoListener {
             override fun onDurationChanged(duration: Int) {
-               // mService?.seekTo(duration)
+               viewModel.getMusicController().seekTo(duration)
             }
 
             override fun onPositionChanged(position: Int) {
-               /* if (position != mService?.getPosition()) {
-                    mService?.setSongIndex(position)
+                if (viewModel.getMusicController().currentIndex.value != position) {
+                    viewModel.setMediaItems(position)
                     startForegroundService()
-                }*/
+                }
             }
 
             override fun onStateChanged(action: Int) {
                 when (action) {
-/*                    PlaybackInfoListener.Action.PAUSED -> mService?.pauseSong()
-                    PlaybackInfoListener.Action.SHUFFLE -> mService?.setShuffle()
-                    PlaybackInfoListener.Action.LOOPING -> mService?.setLooping()
-                    PlaybackInfoListener.Action.PREVIOUS -> mService?.playPrevious()
-                    PlaybackInfoListener.Action.NEXT -> mService?.playNextSong()
-                    PlaybackInfoListener.Action.PLAYING -> mService?.resumeSong()*/
+                    PlaybackInfoListener.Action.PAUSED -> viewModel.getMusicController().pauseSong()
+                    PlaybackInfoListener.Action.SHUFFLE -> viewModel.getMusicController().shuffleSong()
+                    PlaybackInfoListener.Action.LOOPING -> viewModel.getMusicController().setLooping()
+                    PlaybackInfoListener.Action.PREVIOUS -> viewModel.getMusicController().previousSong()
+                    PlaybackInfoListener.Action.NEXT -> viewModel.getMusicController().nextSong()
+                    PlaybackInfoListener.Action.PLAYING -> viewModel.getMusicController().pauseSong()
                 }
             }
 

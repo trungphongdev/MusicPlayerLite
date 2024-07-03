@@ -9,17 +9,21 @@ import android.os.IBinder
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.lifecycleScope
 import com.example.musicplayerlite.common.NOTIFY_ID
 import com.example.musicplayerlite.common.createNotification
 import com.example.musicplayerlite.common.createNotificationChannel
+import com.example.musicplayerlite.datastore.IMusicDataStore
 import com.example.musicplayerlite.media.IMusicPlayerController
 import com.example.musicplayerlite.media.IMusicPlayerListener
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 
 class MusicService : LifecycleService()  {
     private val binder = MusicBinder()
     private val musicController: IMusicPlayerController by inject()
+    private val musicDataStore: IMusicDataStore by inject()
 
     private val mediaListener = object: IMusicPlayerListener {
         override fun onError() {
@@ -27,12 +31,13 @@ class MusicService : LifecycleService()  {
         }
 
         override fun onPrepared() {
-/*                    musicDataStore.updateCurrentSong(
-                        indexSong = indexSong,
-                        song = listSong[indexSong],
-                        isPlaying = true,
-                        duration = getDuration(),
-                    )*/
+            lifecycleScope.launch {
+                musicDataStore.updateCurrentSong(
+                    indexSong = musicController.currentIndex.value,
+                    song = musicController.currentSong(),
+                    isPlaying = true,
+                )
+            }
             startForegroundService()
         }
 

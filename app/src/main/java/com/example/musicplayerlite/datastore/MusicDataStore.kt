@@ -39,10 +39,9 @@ class MusicDataStore(
         indexSong: Int,
         song: Song,
         isPlaying: Boolean,
-        duration: Int
     ): Unit = withContext(Dispatchers.IO) {
         dataStore.edit { pref ->
-            val songJson = Json.encodeToString(MusicState(indexSong, song, isPlaying, duration))
+            val songJson = Json.encodeToString(MusicState(indexSong, song, isPlaying))
             pref[CURRENT_SONG] = songJson
         }
     }

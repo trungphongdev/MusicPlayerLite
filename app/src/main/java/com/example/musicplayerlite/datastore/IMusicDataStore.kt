@@ -15,7 +15,6 @@ interface IMusicDataStore {
         indexSong: Int,
         song: Song,
         isPlaying: Boolean,
-        duration: Int,
     )
 
     suspend fun setFavouriteSong(id: SongId)

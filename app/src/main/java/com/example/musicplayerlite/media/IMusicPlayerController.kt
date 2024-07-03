@@ -1,6 +1,7 @@
 package com.example.musicplayerlite.media
 
 import com.example.musicplayerlite.model.Song
+import kotlinx.coroutines.flow.MutableStateFlow
 
 interface IMusicPlayerController {
     fun playSongs(index: Int, songs: List<Song>)
@@ -16,4 +17,11 @@ interface IMusicPlayerController {
     fun currentSong(): Song
     fun release()
     fun init()
+
+    fun getCurrentPositionPlaying(): Int
+
+    fun setMediaItems(songs: List<Song>)
+    fun shuffleSong()
+
+    val currentIndex: MutableStateFlow<Int>
 }
